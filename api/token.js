@@ -121,9 +121,9 @@ class Token {
             let tokenSecrets = secrets.find(secret => secret.id == token.id);
 
             let actions = [
-              {name: 'Transfer HBAR', value: 'transfer_hbar'},
-              {name: 'Transfer Token', value: 'transfer'},
-              {name: 'Withdraw Token', value: 'withdraw'},
+              {name: 'Transfer HBAR (transfers HBAR from treasury into a given wallet)', value: 'transfer_hbar'},
+              {name: 'Transfer Token (transfers the token from treasury into a given wallet)', value: 'transfer'},
+              {name: 'Withdraw Token (transfers the token from any account you own into a given wallet)', value: 'withdraw'},
               {name: 'Delete Token', value: 'delete'},
               {name: 'Mint a Token', value: 'mint'},
               {name: 'Burn Token', value: 'burn'},
