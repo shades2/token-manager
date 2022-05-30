@@ -13,10 +13,10 @@
     "@hashgraph/sdk": "^2.6.0",
     "axios": "^0.24.0",
     "dotenv": "^10.0.0",
+    "follow-redirects": "^1.14.8",
     "fs": "^0.0.1-security",
     "inquirer": "^8.2.0",
     "inquirer-date-prompt": "^2.0.1",
-    "moment": "^2.29.2",
-    "follow-redirects": "^1.14.8"
+    "moment": "^2.29.2"
   }
 }
