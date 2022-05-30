@@ -41,8 +41,9 @@ PROD_OPERATOR_PRIVATE_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 Those will be the operators used by the script for testnet and mainnet actions.
 Please be sure to have enough HBAR into those operators accounts when running the CLI.
+
 ## How to Use it
-You can run the CLI with the command:
+You can run the CLI with the command: 
 ```bash
 # run the CLI, and enjoy it...
 $ node index.js
