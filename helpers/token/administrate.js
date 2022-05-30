@@ -567,7 +567,7 @@ class AdministrateToken {
         {
           type: 'input',
           name: 'swap_amount',
-          message: `How many HBAR you want to swipe?`
+          message: `How many HBAR you want to swap?`
         },  
         {
           type: 'input',
