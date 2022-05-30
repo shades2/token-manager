@@ -16,6 +16,7 @@
     "fs": "^0.0.1-security",
     "inquirer": "^8.2.0",
     "inquirer-date-prompt": "^2.0.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.2",
+    "follow-redirects": "^1.14.8"
   }
 }
