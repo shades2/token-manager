@@ -136,7 +136,7 @@ class Token {
               {name: 'Pause a Token', value: 'pause'},
               {name: 'Unpause a Token', value: 'unpause'},
               {name: 'Wipe a Token', value: 'wipe'},
-              {name: 'Swap a Token', value: 'swap'}
+              {name: 'Swap a Token (get HBAR from a wallet to own and send tokens back from treasury)', value: 'swap'}
             ];
             
             inquirer.prompt(
