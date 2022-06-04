@@ -21,7 +21,7 @@ class Api {
         this.client = Client.forTestnet();
         this.client.setOperator(
           process.env.DEV_OPERATOR_ACCOUNT, 
-          process.env.DEV_OPERTOR_PRIVATE_KEY
+          process.env.DEV_OPERATOR_PRIVATE_KEY
         );
         break;
       case 'mainnet':
