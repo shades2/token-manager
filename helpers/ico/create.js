@@ -24,11 +24,11 @@ class CreateICO {
   }
 
   create(tokenSecrets) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let icos = await this.tokenICO.readICO();
       let tokenICO = icos.find(ico => ico.id == tokenSecrets.id);
-      
-      if(tokenICO) {
+
+      if (tokenICO) {
         resolve(`ICO already exists for ${tokenSecrets.name}, please use the update function.`);
       } else {
         inquirer.prompt([
@@ -36,46 +36,44 @@ class CreateICO {
             type: 'date',
             name: 'start',
             message: `When do you want to start your ICO for ${tokenSecrets.name}?`
-          },        
+          },
           {
             type: 'input',
             name: 'rounds',
             message: `How many rounds do you want to have in your ICO for ${tokenSecrets.name}?`
-          }        
-        ]).then(async(answers) => {
+          }
+        ]).then(async (answers) => {
           let ico = {
             id: tokenSecrets.id,
             environment: tokenSecrets.environment,
             start: answers.start,
             rounds: []
           };
-  
-          let start = moment(answers.start);
-          if(start.isAfter()) {
-            inquirer.prompt([
-              {
-                type: 'confirm',
-                name: 'pause',
-                message: `Do you want to pause ${tokenSecrets.name} until the ICO starts?`,
-                default: false
-              }       
-            ]).then(async(action) => {
-              try {
-                for(let i = 1; i <= answers.rounds; i++) {
-                  ico.rounds.push(await this.createRound(tokenSecrets, i));
-                }
 
-                if(action.pause) {
-                  await this.tokenAdministrate.pause(tokenSecrets);
-                }                
-        
-                await this.tokenICO.writeICO(ico);
-                resolve(`ICO has been configured for ${tokenSecrets.name}`);  
-              } catch(error) {
-                reject(error);
-              }                
-            });
-          }
+          let start = moment(answers.start);
+          inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'pause',
+              message: `Do you want to pause ${tokenSecrets.name} until the ICO starts?`,
+              default: false
+            }
+          ]).then(async (action) => {
+            try {
+              for (let i = 1; i <= answers.rounds; i++) {
+                ico.rounds.push(await this.createRound(tokenSecrets, i));
+              }
+
+              if (action.pause) {
+                await this.tokenAdministrate.pause(tokenSecrets);
+              }
+
+              await this.tokenICO.writeICO(ico);
+              resolve(`ICO has been configured for ${tokenSecrets.name}`);
+            } catch (error) {
+              reject(error);
+            }
+          });
         });
       }
     });
@@ -103,8 +101,8 @@ class CreateICO {
           type: 'input',
           name: 'description',
           message: `What's the description for round ${id}?`
-        }                                
-      ]).then(async(round) => {
+        }
+      ]).then(async (round) => {
         try {
           // creating a dedicated treasury for the ICO...
           let treasury = await this.accountAPI.create();
@@ -112,8 +110,8 @@ class CreateICO {
           await this.tokenAdministrate.associate(tokenSecrets, treasury.accountId, treasury.privateKey);
           // if KYC key is there, we must enable KYC on the ICO treasury account...
           let kyc = tokenSecrets.keys.find(key => key.type == 'KYC');
-          
-          if(kyc) {
+
+          if (kyc) {
             await this.tokenAdministrate.enableKyc(tokenSecrets, treasury.accountId);
           }
           // moving the relative amount from treasury to ICO wallet...
@@ -126,11 +124,11 @@ class CreateICO {
             name: round.name,
             description: round.description,
             treasury: treasury,
-          });          
-        } catch(error) {
+          });
+        } catch (error) {
           reject(error);
         }
-      });          
+      });
     });
   }
 

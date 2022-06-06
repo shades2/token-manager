@@ -142,19 +142,33 @@ class CreateToken {
 
         transaction.freezeWith(this.client);
 
-        //Sign the transaction with the token adminKey and the token treasury account private key
+        //If adminKey present, sign the transaction with the token adminKey and the token treasuryKey
         let adminKey = keys.find(key => key.type == 'Admin');
-        const signTx = await (await transaction.sign(PrivateKey.fromString(adminKey.privateKey)))
-          .sign(PrivateKey.fromString(treasury.privateKey));
+        if (adminKey) {
+          const signTx = await (await transaction.sign(PrivateKey.fromString(adminKey.privateKey)))
+            .sign(PrivateKey.fromString(treasury.privateKey));
 
-        //Sign the transaction with the client operator private key and submit to a Hedera network
-        const txResponse = await signTx.execute(this.client);
+          //Sign the transaction with the client operator private key and submit to a Hedera network
+          const txResponse = await signTx.execute(this.client);
 
-        //Get the receipt of the transaction
-        const receipt = await txResponse.getReceipt(this.client);
+          //Get the receipt of the transaction
+          const receipt = await txResponse.getReceipt(this.client);
 
-        //Get the token ID from the receipt
-        resolve(receipt.tokenId);
+          //Get the token ID from the receipt
+          resolve(receipt.tokenId);
+        } else {
+          //If there is no adminKey, sign only with treasuryKey
+          const signTx = await (await transaction.sign(PrivateKey.fromString(treasury.privateKey)))
+
+          //Sign the transaction with the client operator private key and submit to a Hedera network
+          const txResponse = await signTx.execute(this.client);
+
+          //Get the receipt of the transaction
+          const receipt = await txResponse.getReceipt(this.client);
+
+          //Get the token ID from the receipt
+          resolve(receipt.tokenId);
+        }
       } catch (error) {
         reject(error);
       }
@@ -290,8 +304,8 @@ class CreateToken {
           name: 'token_type',
           message: 'Will your token be Fungible or Not?',
           choices: [
-            {name: TokenType.FungibleCommon.toString(), value: TokenType.FungibleCommon},
-            {name: TokenType.NonFungibleUnique.toString(), value: TokenType.NonFungibleUnique}
+            { name: TokenType.FungibleCommon.toString(), value: TokenType.FungibleCommon },
+            { name: TokenType.NonFungibleUnique.toString(), value: TokenType.NonFungibleUnique }
           ]
         },
         {
@@ -303,7 +317,7 @@ class CreateToken {
           validate(value) {
             return true;
           },
-        },       
+        },
         {
           type: 'input',
           name: 'token_initialSupply',
@@ -320,10 +334,10 @@ class CreateToken {
           name: 'token_supply_type',
           message: "Will your token's supply be finite or infinite?",
           choices: [
-            {name: TokenSupplyType.Finite.toString(), value: TokenSupplyType.Finite},
-            {name: TokenSupplyType.Infinite.toString(), value: TokenSupplyType.Infinite}
+            { name: TokenSupplyType.Finite.toString(), value: TokenSupplyType.Finite },
+            { name: TokenSupplyType.Infinite.toString(), value: TokenSupplyType.Infinite }
           ],
-        },       
+        },
         {
           type: 'input',
           name: 'token_maxSupply',
@@ -340,7 +354,7 @@ class CreateToken {
           name: 'token_freeze_default',
           message: "Will your token be frozen by default?",
           default: false
-        }       
+        }
       ];
 
       inquirer.prompt(questions).then((answers) => {
