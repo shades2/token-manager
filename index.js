@@ -8,7 +8,7 @@ function init() {
       type: 'list',
       name: 'environment',
       message: 'Which environment do you want to work with?',
-      choices: ['Development', 'Production'],
+      choices: ['Development', 'Production', 'Custom'],
     }    
   ).then(async(answers) => {
     switch(answers.environment) {
@@ -19,7 +19,11 @@ function init() {
       case 'Production':
         api.initClient('mainnet');
         actions();
-        break;      
+        break;
+      case 'Custom':
+        api.initClient('custom');
+        actions();
+        break;           
     }
   });
 }

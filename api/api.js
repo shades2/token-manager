@@ -1,4 +1,4 @@
-import { Client } from '@hashgraph/sdk';
+import { Client, AccountId } from '@hashgraph/sdk';
 
 import Token from './token.js';
 import Account from './account.js';
@@ -21,7 +21,7 @@ class Api {
         this.client = Client.forTestnet();
         this.client.setOperator(
           process.env.DEV_OPERATOR_ACCOUNT, 
-          process.env.DEV_OPERTOR_PRIVATE_KEY
+          process.env.DEV_OPERATOR_PRIVATE_KEY
         );
         break;
       case 'mainnet':
@@ -30,6 +30,16 @@ class Api {
           process.env.PROD_OPERATOR_ACCOUNT, 
           process.env.PROD_OPERATOR_PRIVATE_KEY          
         );
+        break;
+      case 'custom':
+        const node = {[process.env.CUSTOM_NODE]: new AccountId(Number(process.env.CUSTOM_ACCOUNT_ID))};
+        this.client = Client.forNetwork(node).setMirrorNetwork(process.env.CUSTOM_MIRROR);
+
+        this.client.setOperator(
+          process.env.LOCAL_OPERATOR_ACCOUNT, 
+          process.env.LOCAL_OPERATOR_PRIVATE_KEY          
+        );
+        break;        
     }
 
     this.account = new Account(this.client, environment);
