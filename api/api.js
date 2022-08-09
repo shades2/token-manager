@@ -43,7 +43,7 @@ class Api {
     }
 
     this.account = new Account(this.client, environment);
-    this.token = new Token(this.client, environment);
+    this.token = new Token(this.client, environment, process.env.LOCAL_OPERATOR_PRIVATE_KEY);
     this.ico = new ICO(this.client, environment);
   }
 }

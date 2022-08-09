@@ -11,12 +11,12 @@ class Token {
   administrateToken = null;
   secrets = null;
 
-  constructor(client, environment) {
+  constructor(client, environment, operatorPrivateKey) {
     this.client = client;
     this.environment = environment;
     this.createToken = new CreateToken(client, environment);
     this.updateToken = new UpdateToken(client, environment);
-    this.administrateToken = new AdministrateToken(client, environment);
+    this.administrateToken = new AdministrateToken(client, environment, operatorPrivateKey);
     this.secrets = new Secrets();
   }
 

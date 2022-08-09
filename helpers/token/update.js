@@ -115,8 +115,8 @@ class UpdateToken {
 
             const transaction = await new TokenFeeScheduleUpdateTransaction()
               .setTokenId(tokenSecrets.id);
-            console.log("updating fees");
-            transaction.setCustomFees([]); // customFees
+
+            transaction.setCustomFees(customFees);
 
             transaction.freezeWith(this.client);
 
@@ -168,25 +168,31 @@ class UpdateToken {
           try {
             switch (key.type) {
               case 'Admin':
-                transaction.setAdminKey(PublicKey.fromString(key.publicKey));
+                // transaction.setAdminKey(PublicKey.fromString(key.publicKey));
+                transaction.setAdminKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
               case 'KYC':
                 transaction.setKycKey(PublicKey.fromString(key.publicKey));
                 break;
               case 'Freeze':
-                transaction.setFreezeKey(PublicKey.fromString(key.publicKey));
+                // transaction.setFreezeKey(PublicKey.fromString(key.publicKey));
+                transaction.setFreezeKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
               case 'Wipe':
-                transaction.setWipeKey(PublicKey.fromString(key.publicKey));
+                // transaction.setWipeKey(PublicKey.fromString(key.publicKey));
+                transaction.setWipeKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
               case 'Supply':
-                transaction.setSupplyKey(PublicKey.fromString(key.publicKey));
+                // transaction.setSupplyKey(PublicKey.fromString(key.publicKey));
+                transaction.setSupplyKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
               case 'Fees Schedule':
-                transaction.setFeeScheduleKey(PublicKey.fromString(key.publicKey));
+                // transaction.setFeeScheduleKey(PublicKey.fromString(key.publicKey));
+                transaction.setFeeScheduleKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
               case 'Pause':
-                transaction.setPauseKey(PublicKey.fromString(key.publicKey));
+                // transaction.setPauseKey(PublicKey.fromString(key.publicKey));
+                transaction.setPauseKey(PublicKey.fromString('0000000000000000000000000000000000000000000000000000000000000000'));
                 break;
             }
           } catch (error) {
@@ -420,14 +426,14 @@ class UpdateToken {
                 name: 'Fees Schedule',
                 checked: true
               },
-              // {
-              //   name: 'Pause',
-              //   checked: true
-              // },
-              // {
-              //   name: 'Supply',
-              //   checked: true
-              // },              
+              {
+                name: 'Pause',
+                checked: true
+              },
+              {
+                name: 'Supply',
+                checked: true
+              },              
             ],
             when: (answers) => answers.keys_confirm === true,
             validate(answer) {

@@ -24,10 +24,12 @@ class AdministrateToken {
   client = null;
   environment = null;
   secrets = null;
+  operatorPrivateKey = null;
 
-  constructor(client, environment) {
+  constructor(client, environment, operatorPrivateKey) {
     this.client = client;
     this.environment = environment;
+    this.operatorPrivateKey = operatorPrivateKey;
     this.secrets = new Secrets();
   }
 
@@ -519,11 +521,6 @@ class AdministrateToken {
         },
         {
           type: 'input',
-          name: 'wipe_key',
-          message: `Which is the privateKey of the account?`
-        },
-        {
-          type: 'input',
           name: 'wipe_amount',
           message: `How many ${tokenSecrets.symbol} you want to wipe off?`
         }           
@@ -536,7 +533,7 @@ class AdministrateToken {
             .freezeWith(this.client);
 
           const wipe = tokenSecrets.keys.find(key => key.type == 'Wipe');
-          const signTx = await (await transaction.sign(PrivateKey.fromString(answers.wipe_key)))
+          const signTx = await (await transaction.sign(PrivateKey.fromString(this.operatorPrivateKey)))
             .sign(PrivateKey.fromString(wipe.privateKey));
 
           const txResponse = await signTx.execute(this.client);
