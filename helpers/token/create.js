@@ -74,7 +74,8 @@ class CreateToken {
           .setSupplyType(settings.token_supply_type)
           .setInitialSupply(Number(settings.token_initialSupply * (10 ** settings.token_decimals)))
           .setMaxSupply(Number(settings.token_maxSupply * (10 ** settings.token_decimals)))
-          .setFreezeDefault(settings.token_freeze_default);
+          .setFreezeDefault(settings.token_freeze_default)
+          .setMaxTransactionFee(100);
 
         // setting all the keys...
         keys.forEach(key => {
